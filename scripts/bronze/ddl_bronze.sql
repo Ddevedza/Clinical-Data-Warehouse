@@ -69,7 +69,7 @@ CREATE TABLE bronze.encounters(
 	organization NVARCHAR(255),
 	payer NVARCHAR (255),
 	provider NVARCHAR(255),
-	encounter NVARCHAR(255),
+	encounterclass NVARCHAR(255),
 	code NVARCHAR(50),
 	description NVARCHAR(500),
 	base_encounter_cost DECIMAL(18,2),
