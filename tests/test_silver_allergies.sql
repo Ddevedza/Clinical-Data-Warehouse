@@ -32,3 +32,12 @@ SELECT
 	code
 FROM bronze.allergies
 WHERE TRIM(patient) != patient or TRIM(encounter) != encounter or TRIM(code) != code
+
+-- FK not existing keys check
+SELECT patient
+FROM bronze.allergies
+WHERE patient NOT IN (SELECT id FROM bronze.patients)
+
+SELECT encounter
+FROM bronze.allergies
+WHERE encounter NOT IN (SELECT id FROM bronze.encounters)
