@@ -39,15 +39,16 @@ CREATE TABLE silver.careplans(
 );
 
 IF OBJECT_ID('silver.conditions','U') IS NOT NULL
-	DROP TABLE silver.conditions;
-CREATE TABLE silver.conditions(
-	start NVARCHAR(50),
-	stop NVARCHAR(50),
-	patient NVARCHAR(255),
-	encounter NVARCHAR(255),
+	DROP TABLE silver.conditions; -- drop it
+CREATE TABLE silver.conditions( -- then create it
+	-- defining data for each table
+	start DATE,
+	stop DATE,
+	patient_id NVARCHAR(255),
+	encounter_id NVARCHAR(255),
 	code NVARCHAR(50),
 	description NVARCHAR(500),
-	dwh_create_date DATETIME2 DEFAULT GETDATE()
+	dwh_create_date DATETIME2 DEFAULT GETDATE() -- metadata when the table was created
 );
 
 IF OBJECT_ID('silver.devices','U') IS NOT NULL
