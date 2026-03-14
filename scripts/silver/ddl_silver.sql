@@ -90,9 +90,9 @@ IF OBJECT_ID('silver.imaging_studies','U') IS NOT NULL
 	DROP TABLE silver.imaging_studies;
 CREATE TABLE silver.imaging_studies(
 	id NVARCHAR(255),
-	date NVARCHAR(50),
-	patient NVARCHAR(255),
-	encounter NVARCHAR(255),
+	date DATETIME,
+	patient_id NVARCHAR(255),
+	encounter_id NVARCHAR(255),
 	bodysite_code NVARCHAR(50),
 	bodysite_description NVARCHAR(255),
 	modality_code NVARCHAR(50),
