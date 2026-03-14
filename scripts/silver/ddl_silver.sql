@@ -117,11 +117,11 @@ CREATE TABLE silver.immunizations(
 IF OBJECT_ID('silver.medications','U') IS NOT NULL
 	DROP TABLE silver.medications;
 CREATE TABLE silver.medications(
-	start NVARCHAR(50),
-	stop NVARCHAR(50),
-	patient NVARCHAR(255),
-	payer NVARCHAR(255),
-	encounter NVARCHAR(255),
+	start DATETIME,
+	stop DATETIME,
+	patient_id NVARCHAR(255),
+	payer_id NVARCHAR(255),
+	encounter_id NVARCHAR(255),
 	code NVARCHAR(50),
 	description NVARCHAR(500),
 	base_cost DECIMAL(18,2),
