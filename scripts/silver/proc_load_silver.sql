@@ -156,3 +156,24 @@ SELECT
     TRIM(sop_code) AS sop_code,
     sop_description
 FROM bronze.imaging_studies;
+
+GO
+
+TRUNCATE TABLE silver.immunizations;
+
+INSERT INTO silver.immunizations (
+    [date],
+    patient_id,
+    encounter_id,
+    code,
+    description,
+    base_cost
+)
+SELECT
+    TRY_CAST([date] AS DATE) AS [date],
+    TRIM(patient) AS patient_id,
+    TRIM(encounter) AS encounter_id,
+    TRIM(code) AS code,
+    description,
+    base_cost
+FROM bronze.immunizations;
