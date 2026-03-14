@@ -65,3 +65,26 @@ SELECT
 	TRIM(code) code,
 	description
 FROM bronze.conditions;
+
+GO
+
+TRUNCATE TABLE silver.devices;
+
+INSERT INTO silver.devices (
+    start,
+    stop,
+    patient_id,
+    encounter_id,
+    code,
+    description,
+    udi
+    )
+SELECT
+    TRY_CAST(start as DATE) start, -- Turning data into date if possible
+    TRY_CAST(stop as DATE) stop,
+    TRIM(patient) patient_id,
+    TRIM(encounter) encounter_id,
+    TRIM(code) code,
+    description,
+    TRIM(udi)
+FROM bronze.devices;
