@@ -105,9 +105,9 @@ CREATE TABLE silver.imaging_studies(
 IF OBJECT_ID('silver.immunizations','U') IS NOT NULL
 	DROP TABLE silver.immunizations;
 CREATE TABLE silver.immunizations(
-	date NVARCHAR(50),
-	patient NVARCHAR(255),
-	encounter NVARCHAR(255),
+	date DATETIME,
+	patient_id NVARCHAR(255),
+	encounter_id NVARCHAR(255),
 	code NVARCHAR(50),
 	description NVARCHAR(500),
 	base_cost DECIMAL(18,2),
