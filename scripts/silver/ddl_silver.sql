@@ -14,8 +14,8 @@ IF OBJECT_ID('silver.allergies','U') IS NOT NULL
 	DROP TABLE silver.allergies; -- drop it
 CREATE TABLE silver.allergies( -- then create it
 	-- defining data for each table
-	start DATE,
-	stop DATE,
+	start DATETIME,
+	stop DATETIME,
 	patient_id NVARCHAR(255),
 	encounter_id NVARCHAR(255),
 	code NVARCHAR(50),
@@ -42,8 +42,8 @@ IF OBJECT_ID('silver.conditions','U') IS NOT NULL
 	DROP TABLE silver.conditions; -- drop it
 CREATE TABLE silver.conditions( -- then create it
 	-- defining data for each table
-	start DATE,
-	stop DATE,
+	start DATETIME,
+	stop DATETIME,
 	patient_id NVARCHAR(255),
 	encounter_id NVARCHAR(255),
 	code NVARCHAR(50),
@@ -55,8 +55,8 @@ IF OBJECT_ID('silver.devices','U') IS NOT NULL
     DROP TABLE silver.devices; -- drop it
 CREATE TABLE silver.devices( -- then create it
     -- defining data for each table
-    start DATE,
-    stop DATE,
+    start DATETIME,
+    stop DATETIME,
     patient_id NVARCHAR(255),
     encounter_id NVARCHAR(255),
     code NVARCHAR(50),
@@ -69,12 +69,12 @@ IF OBJECT_ID('silver.encounters','U') IS NOT NULL
 	DROP TABLE silver.encounters;
 CREATE TABLE silver.encounters(
 	id NVARCHAR(255),
-	start NVARCHAR(50),
-	stop NVARCHAR(50),
-	patient NVARCHAR(255),
-	organization NVARCHAR(255),
-	payer NVARCHAR (255),
-	provider NVARCHAR(255),
+	start DATETIME,
+	stop DATETIME,
+	patient_id NVARCHAR(255),
+	organization_id NVARCHAR(255),
+	payer_id NVARCHAR (255),
+	provider_id NVARCHAR(255),
 	encounterclass NVARCHAR(255),
 	code NVARCHAR(50),
 	description NVARCHAR(500),
