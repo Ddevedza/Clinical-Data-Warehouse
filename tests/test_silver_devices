@@ -1,11 +1,3 @@
--- Date casting check
-SELECT
-    start
-FROM (SELECT
-    TRY_CAST(start as DATE) start, -- Turning data into date if possible
-    TRY_CAST(stop as DATE) stop
-FROM bronze.devices)t
-WHERE start IS NULL
 -- Duplicate check
 SELECT
     patient,
