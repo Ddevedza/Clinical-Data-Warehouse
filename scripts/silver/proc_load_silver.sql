@@ -9,8 +9,8 @@ INSERT INTO silver.allergies (
 	description
 	)
 SELECT
-	TRY_CAST(start as DATE) start, -- Turning data into date if possible
-	TRY_CAST(stop as DATE) stop,
+	TRY_CAST(start as DATETIME) start, -- Turning data into date if possible
+	TRY_CAST(stop as DATETIME) stop,
 	TRIM(patient) patient_id,
 	TRIM(encounter) encounter_id,
 	TRIM(code) code,
@@ -35,8 +35,8 @@ INSERT INTO silver.careplans (
 
 SELECT 
 	TRIM(id) id,
-	TRY_CAST(start as DATE) start, -- Turning data into date if possible
-	TRY_CAST(stop as DATE) stop,
+	TRY_CAST(start as DATETIME) start, -- Turning data into date if possible
+	TRY_CAST(stop as DATETIME) stop,
 	TRIM(patient) patient_id,
 	TRIM(encounter) encounter_id,
 	TRIM(code) code,
@@ -58,8 +58,8 @@ INSERT INTO silver.conditions (
 	description
 	)
 SELECT
-	TRY_CAST(start as DATE) start, -- Turning data into date if possible
-	TRY_CAST(stop as DATE) stop,
+	TRY_CAST(start as DATETIME) start, -- Turning data into date if possible
+	TRY_CAST(stop as DATETIME) stop,
 	TRIM(patient) patient_id,
 	TRIM(encounter) encounter_id,
 	TRIM(code) code,
@@ -80,11 +80,50 @@ INSERT INTO silver.devices (
     udi
     )
 SELECT
-    TRY_CAST(start as DATE) start, -- Turning data into date if possible
-    TRY_CAST(stop as DATE) stop,
+    TRY_CAST(start as DATETIME) start, -- Turning data into date if possible
+    TRY_CAST(stop as DATETIME) stop,
     TRIM(patient) patient_id,
     TRIM(encounter) encounter_id,
     TRIM(code) code,
     description,
     TRIM(udi)
 FROM bronze.devices;
+
+GO
+
+TRUNCATE TABLE silver.encounters;
+
+INSERT INTO silver.encounters (
+    id,
+    start,
+    stop,
+    patient_id,
+    organization_id,
+    payer_id,
+    provider_id,
+    encounterclass,
+    code,
+    description,
+    base_encounter_cost,
+    total_claim_cost,
+    payer_coverage,
+    reasoncode,
+    reasondescription
+)
+SELECT
+    TRIM(id) AS id,
+    TRY_CAST(start AS DATETIME) AS start,
+    TRY_CAST(stop AS DATETIME) AS stop,
+    TRIM(patient) AS patient_id,
+    TRIM(organization) organization_id,
+    TRIM(payer) payer_id,
+    TRIM(provider) provider_id,
+    LOWER(TRIM(encounterclass)) encounterclass,
+    TRIM(code) AS code,
+    description,
+    base_encounter_cost,
+    total_claim_cost,
+    payer_coverage,
+    TRIM(reasoncode) AS reasoncode,
+    reasondescription
+FROM bronze.encounters;
