@@ -127,3 +127,32 @@ SELECT
     TRIM(reasoncode) AS reasoncode,
     reasondescription
 FROM bronze.encounters;
+
+GO
+
+TRUNCATE TABLE silver.imaging_studies;
+
+INSERT INTO silver.imaging_studies (
+    id,
+    [date],
+    patient_id,
+    encounter_id,
+    bodysite_code,
+    bodysite_description,
+    modality_code,
+    modality_description,
+    sop_code,
+    sop_description
+)
+SELECT
+    TRIM(id) AS id,
+    TRY_CAST([date] AS DATETIME) AS [date],
+    TRIM(patient) AS patient_id,
+    TRIM(encounter) AS encounter_id,
+    TRIM(bodysite_code) AS bodysite_code,
+    TRIM(bodysite_description),
+    TRIM(modality_code) AS modality_code,
+    modality_description,
+    TRIM(sop_code) AS sop_code,
+    sop_description
+FROM bronze.imaging_studies;
