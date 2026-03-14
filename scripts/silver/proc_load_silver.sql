@@ -177,3 +177,68 @@ SELECT
     description,
     base_cost
 FROM bronze.immunizations;
+
+GO
+
+TRUNCATE TABLE silver.medications;
+
+INSERT INTO silver.medications (
+    start,
+    stop,
+    patient_id,
+    payer_id,
+    encounter_id,
+    code,
+    description,
+    base_cost,
+    payer_coverage,
+    dispenses,
+    totalcost,
+    reasoncode,
+    reasondescription
+)
+
+SELECT
+    start,
+    stop,
+    patient_id,
+    payer_id,
+    encounter_id,
+    code,
+    description,
+    base_cost,
+    payer_coverage,
+    dispenses,
+    totalcost,
+    reasoncode,
+    reasondescription
+FROM(
+    SELECT
+        CASE 
+            WHEN TRY_CAST(stop AS DATETIME) < TRY_CAST(start AS DATETIME) THEN TRY_CAST(stop AS DATETIME)
+            ELSE TRY_CAST(start AS DATETIME) 
+        END AS start,
+        CASE 
+            WHEN TRY_CAST(stop AS DATETIME) < TRY_CAST(start AS DATETIME) THEN TRY_CAST(start AS DATETIME)
+            ELSE TRY_CAST(stop AS DATETIME) 
+        END AS stop,
+        TRIM(patient) AS patient_id,
+        TRIM(payer) AS payer_id,
+        TRIM(encounter) AS encounter_id,
+        TRIM(code) AS code,
+        description,
+        base_cost,
+        payer_coverage,
+        dispenses,
+        totalcost,
+        TRIM(reasoncode) AS reasoncode,
+        reasondescription,
+        -- Deduplication: where duplicate prescriptions exist for same patient/encounter/code/start,
+        -- keep the record with the latest stop date
+        ROW_NUMBER() OVER (
+            PARTITION BY patient, encounter, code, start
+            ORDER BY TRY_CAST(stop AS DATE) DESC
+        ) AS rn
+    FROM bronze.medications
+) t
+WHERE rn = 1
